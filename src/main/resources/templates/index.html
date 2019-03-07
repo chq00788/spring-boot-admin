@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin | Dashboard</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+
+
+    <link rel="stylesheet" th:href="@{/static/plugins/font-awesome/css/font-awesome.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/bootstrap/css/bootstrap.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/AdminLTE/dist/css/AdminLTE.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/AdminLTE/dist/css/skins/_all-skins.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/bootstrap-table/bootstrap-table.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/toastr/toastr.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/select2/css/select2.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/plugins/bootstrap-switch/bootstrap-switch.min.css}">
+
+    <link rel="stylesheet" th:href="@{/static/css/index.css}">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="~{common/header :: header}"></div>
+
+    <div th:replace="~{common/sidebar :: sidebar}"></div>
+    <div class="content-wrapper" id="content-wrapper" style="background-color: #F2F2F2">
+        <div th:replace="~{common/content-wrapper :: content-wrapper}"></div>
+    </div>
+    <div th:replace="~{common/footer ::footer}"></div>
+
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
+
+<script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/static/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+
+<script th:src="@{/static/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js}"></script>
+
+<script th:src="@{/static/plugins/toastr/toastr.min.js}"></script>
+
+<script th:src="@{/static/plugins/select2/js/select2.min.js}"></script>
+
+<script th:src="@{/static/plugins/AdminLTE/dist/js/adminlte.min.js}"></script>
+
+<script th:src="@{/static/plugins/bootstrap-switch/bootstrap-switch.min.js}"></script>
+
+<script th:src="@{/static/plugins/AdminLTE/dist/js/demo.js}"></script>
+
+<script th:src="@{/static/js/index.js}"></script>
+<script>
+    $(function () {
+        //toastr初始化
+        toastr.options = {
+            closeButton: true,                                            // 是否显示关闭按钮，（提示框右上角关闭按钮）
+            debug: false,                                                    // 是否使用deBug模式
+            progressBar: true,                                            // 是否显示进度条，（设置关闭的超时时间进度条）
+            positionClass: "toast-bottom-right",                             // 设置提示款显示的位置
+            onclick: null,                                                     // 点击消息框自定义事件 
+            showDuration: "300",                                      // 显示动画的时间
+            hideDuration: "1000",                                     //  消失的动画时间
+            timeOut: "2000",                                             //  自动关闭超时时间 
+            extendedTimeOut: "1000",                             //  加长展示时间
+            showEasing: "swing",                                     //  显示时的动画缓冲方式
+            hideEasing: "linear",                                       //   消失时的动画缓冲方式
+            showMethod: "fadeIn",                                   //   显示时的动画方式
+            hideMethod: "fadeOut"                                   //   消失时的动画方式
+        };
+    })
+</script>
+</body>
+</html>

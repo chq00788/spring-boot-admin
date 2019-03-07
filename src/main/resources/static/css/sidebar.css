@@ -1,0 +1,8 @@
+@media (min-width: 768px) {
+  .sidebar {position: absolute;margin-top: 0;z-index: 2;}
+}
+.sidebar .sidebar-search {padding: 3px;}
+.sidebar ul li a.active {background-color: #eee;}
+.sidebar ul li {background: #f8f8f8;border-bottom: #e7e7e7 1px solid;}
+.nav-second-level li {border-bottom: 0 !important;}
+.nav-second-level li a {padding-left: 30px;}
