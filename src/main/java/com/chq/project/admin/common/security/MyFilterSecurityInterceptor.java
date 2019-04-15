@@ -1,6 +1,5 @@
 package com.chq.project.admin.common.security;
 
-import com.chq.project.admin.common.security.MyAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;

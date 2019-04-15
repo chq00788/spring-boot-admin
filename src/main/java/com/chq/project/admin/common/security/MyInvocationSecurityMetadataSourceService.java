@@ -2,6 +2,7 @@ package com.chq.project.admin.common.security;
 
 import com.chq.project.admin.system.dao.PermissionDao;
 import com.chq.project.admin.system.model.PermissionModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -26,7 +27,9 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
     @Autowired
     private PermissionDao permissionDao;
 
-    //缓存
+    /**
+     * 缓存
+     */
     private HashMap<String, Collection<ConfigAttribute>> map = null;
 
     /**
@@ -38,13 +41,15 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
         ConfigAttribute cfg;
         List<PermissionModel> perms = permissionDao.findAll();
         for (PermissionModel perm : perms) {
-            array = new ArrayList<>();
-            cfg = new SecurityConfig(perm.getPermCode());
-            //此处只添加了用户的名字，其实还可以添加更多权限的信息，
-            // 例如请求方法到ConfigAttribute的集合中去。
-            // 此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
-            array.add(cfg);
-            map.put(perm.getPermUrl(), array);
+            if (StringUtils.isNotBlank(perm.getPermCode())){
+                array = new ArrayList<>();
+                cfg = new SecurityConfig(perm.getPermCode());
+                //此处只添加了用户的名字，其实还可以添加更多权限的信息，
+                // 例如请求方法到ConfigAttribute的集合中去。
+                // 此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
+                array.add(cfg);
+                map.put(perm.getPermUrl(), array);
+            }
         }
     }
 

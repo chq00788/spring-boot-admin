@@ -3,6 +3,7 @@ package com.chq.project.admin.system.service;
 import com.chq.project.admin.system.model.PermissionModel;
 import com.chq.project.admin.system.model.RoleModel;
 import com.chq.project.admin.system.model.UserModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,9 +41,11 @@ public class CustomUserServiceImpl implements UserDetailsService {
         if (null != user) {
             for (RoleModel role : user.getRoleList()) {
                 for (PermissionModel perm : role.getPermissionList()) {
-                    //此处将权限信息添加到 GrantedAuthority 对象中，在后面进行权限验证时会使用GrantedAuthority 对象。
-                    GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(perm.getPermCode());
-                    grantedAuthorities.add(grantedAuthority);
+                    if (StringUtils.isNotBlank(perm.getPermCode())) {
+                        //此处将权限信息添加到 GrantedAuthority 对象中，在后面进行权限验证时会使用GrantedAuthority 对象。
+                        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(perm.getPermCode());
+                        grantedAuthorities.add(grantedAuthority);
+                    }
                 }
             }
             return new User(user.getUsername(), user.getPassword(), grantedAuthorities);

@@ -38,7 +38,7 @@
                 <ul class="treeview-menu" th:if="${menu.children != null}">
                     <li th:each="child: ${menu.children}" class="treeview">
                         <a th:href="${child.permUrl}">
-                            <i class="fa fa-circle-o"></i>
+                            <i th:class="${child.permIcon}"></i>
                             <span th:text="${child.permName}"></span>
                         </a>
                     </li>
