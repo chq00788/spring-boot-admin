@@ -1,7 +1,6 @@
 package com.chq.project.admin.common.security;
 
 import com.chq.project.admin.system.service.CustomUserServiceImpl;
-import com.chq.project.admin.system.service.MyFilterSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

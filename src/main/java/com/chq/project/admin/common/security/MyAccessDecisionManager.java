@@ -1,4 +1,4 @@
-package com.chq.project.admin.system.service;
+package com.chq.project.admin.common.security;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;

@@ -1,4 +1,4 @@
-package com.chq.project.admin.system.service;
+package com.chq.project.admin.common.security;
 
 import com.chq.project.admin.system.dao.PermissionDao;
 import com.chq.project.admin.system.model.PermissionModel;
