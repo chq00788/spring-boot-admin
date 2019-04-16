@@ -2,51 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <aside th:fragment="sidebar" class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img th:src="@{/static/plugins/AdminLTE/dist/img/user2-160x160.jpg}" class="img-circle"
-                     alt="User Image">
-            </div>
-            <div class="pull-left info">
-                <p th:text="${user.realName}"></p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li th:each="menu:${menus}" class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i><span th:text="${menu.permName}"></span></a>
+                    <dl class="layui-nav-child" th:if="${menu.children != null}">
+                        <dd th:each="child: ${menu.children}"><a href="javascript:;"><span th:text="${child.permName}"></span></a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+            </ul>
         </div>
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-        </form>
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-            <li th:each="menu:${menus}" class="treeview">
-                <a href="#">
-                    <i th:class="${menu.permIcon}"></i> <span th:text="${menu.permName}">Dashboard</span>
-                    <span class="pull-right-container"></span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu" th:if="${menu.children != null}">
-                    <li th:each="child: ${menu.children}" class="treeview">
-                        <a th:href="${child.permUrl}">
-                            <i th:class="${child.permIcon}"></i>
-                            <span th:text="${child.permName}"></span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-    <!-- /.sidebar -->
+    </div>
 </aside>
 </body>
 </html>
