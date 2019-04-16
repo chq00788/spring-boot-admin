@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" th:href="@{/static/plugins/layui/css/layui.css}">
     <style>
-        .layui-icon{
+        .layui-icon {
             margin-right: 10px;
             font-size: 18px;
         }
@@ -27,9 +27,14 @@
 </div>
 <script th:src="@{/static/plugins/layui/layui.js}"></script>
 <script>
-    layui.use('element', function(){
+    layui.use(['element','layer'], function () {
+        var layer = layui.layer;
         var element = layui.element;
-
+        var $ = layui.$;
+        //绑定事件
+        $(document).on('click', '.menu-tree', function (data) {
+            layer.msg('Hello World');
+        });
     });
 </script>
 </body>
