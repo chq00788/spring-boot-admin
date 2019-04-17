@@ -26,10 +26,10 @@
     <sql id="selectiveWhere">
         <where>
             <if test="username != null and username !=''  ">
-                and username = #{username}
+                and username LIKE CONCAT('%',#{username},'%')
             </if>
             <if test="realName != null and realName !=''  ">
-                and real_name = LIKE CONCAT('%',#{realName},'%')
+                and real_name LIKE CONCAT('%',#{realName},'%')
             </if>
             <if test="userType != null">
                 and user_type = #{userType}

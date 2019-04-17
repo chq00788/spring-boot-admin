@@ -10,24 +10,25 @@
     </div>
     <div class="layui-fluid" style="padding: 0 10px 0 10px">
         <div class="layui-card layui-admin-content-search">
-            <form class="layui-form layui-card-header layui-card-header-search" action="">
+            <form class="layui-form layui-card-header layui-card-header-search">
                 <div class="layui-form-item" style="padding-top: 15px">
                     <div class="layui-inline">
                         <label class="layui-form-label">姓名</label>
                         <div class="layui-input-inline" style="width: 180px;">
-                            <input type="realName" name="" autocomplete="off" class="layui-input">
+                            <input id="realNameSearch" type="realName" name="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">账号</label>
                         <div class="layui-input-inline" style="width: 180px;">
-                            <input type="text" name="userName" autocomplete="off" class="layui-input">
+                            <input type="text" id="usernameSearch" name="userName" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-inline" style="width: 180px;">
-                            <select name="status">
+                            <select id="isUsableSearch" name="status">
                                 <option></option>
                                 <option value="1">正常</option>
                                 <option value="0">禁用</option>
@@ -37,10 +38,10 @@
                     <div class="layui-inline">
                         <label class="layui-form-label"></label>
                         <div class="layui-input-inline" style="width: 180px;">
-                            <button class="layui-btn">
+                            <button id="searchBtn" class="layui-btn" data-type="reload">
                                 搜索
                             </button>
-                            <button class="layui-btn layui-btn-primary">
+                            <button class="layui-btn layui-btn-primary" type="reset">
                                 重置
                             </button>
                         </div>
@@ -69,6 +70,7 @@
         //第一个实例
         table.render({
             elem: '#demo'
+            , id: 'userTable'
             , height: 'full-360'
             , url: 'system/user/getListByPage' //数据接口
             , page: true //开启分页
@@ -103,7 +105,31 @@
                 layer.msg('该账号已禁用');
             }
 
-        })
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var realName = $('#realNameSearch');
+                var username = $('#usernameSearch');
+                var isUsable = $('#isUsableSearch');
+
+                //执行重载
+                table.reload('userTable', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        realName: realName.val(),
+                        username: username.val(),
+                        isUsable: isUsable.val()
+                    }
+                });
+            }
+        };
+        $('#searchBtn').on('click', function(e){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+            e.preventDefault();
+        });
     });
 </script>
 <script type="text/html" id="statusTpl">
