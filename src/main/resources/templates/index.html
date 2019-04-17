@@ -11,6 +11,36 @@
             margin-right: 10px;
             font-size: 18px;
         }
+
+        .layui-card-header-search {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            height: auto;
+        }
+
+        .layui-main-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            overflow-y: auto;;
+            background-color: #7a869d
+        }
+
+        .layui-admin-content-head {
+            display: block;
+            height: 50px;
+            line-height: 50px;
+            margin-bottom: 0
+        }
+
+        .layui-admin-content-search {
+            padding-bottom: 10px;
+            height: auto;
+            position: relative
+        }
     </style>
 </head>
 <body class="layui-layout-body">
@@ -19,7 +49,7 @@
 
     <div th:replace="~{common/sidebar :: sidebar}"></div>
 
-    <div class="content-wrapper" id="content-wrapper" style="background-color: #F2F2F2">
+    <div class="content-wrapper" style="background-color: #F2F2F2">
         <div th:replace="~{common/content-wrapper :: content-wrapper}"></div>
     </div>
 
@@ -28,7 +58,7 @@
 <script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/static/plugins/layui/layui.js}"></script>
 <script>
-    layui.use(['element','layer'], function () {
+    layui.use(['element', 'layer', 'form'], function () {
         var layer = layui.layer;
         var element = layui.element;
         /**

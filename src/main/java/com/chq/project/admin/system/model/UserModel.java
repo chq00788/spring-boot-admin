@@ -26,7 +26,7 @@ public class UserModel {
     @ApiModelProperty(value = "姓名")
     private String realName;
 
-    @ApiModelProperty(value = "用户类型(0:管理员1:用户)", example = "123")
+    @ApiModelProperty(value = "用户类型(1:管理员2:用户)", example = "123")
     private Integer userType;
 
     @ApiModelProperty(value = "盐")
