@@ -25,17 +25,27 @@
 
     <div th:replace="~{common/footer ::footer}"></div>
 </div>
+<script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/static/plugins/layui/layui.js}"></script>
 <script>
     layui.use(['element','layer'], function () {
         var layer = layui.layer;
         var element = layui.element;
-        var $ = layui.$;
-        //绑定事件
-        $(document).on('click', '.menu-tree', function (data) {
-            layer.msg('Hello World');
+        /**
+         * 点击菜单按钮
+         */
+        $('a[class="menu-tree"]').on('click', function (e) {
+            var href = $(this).attr('href');
+            layer.msg(href);
+            if (href && href != '#') {
+                //主界面加载链接对应的页面
+                $('#content-wrapper').load(href, function () {
+
+                });
+                e.preventDefault();
+            }
         });
     });
 </script>
 </body>
-</html>
+</html>a

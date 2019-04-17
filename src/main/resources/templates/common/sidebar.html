@@ -9,7 +9,7 @@
                 <li th:each="menu:${menus}" class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i><span th:text="${menu.permName}"></span></a>
                     <dl class="layui-nav-child" th:if="${menu.children != null}">
-                        <dd th:each="child: ${menu.children}"><a class="menu-tree" href="javascript:;"><span th:text="${child.permName}"></span></a></dd>
+                        <dd th:each="child: ${menu.children}"><a class="menu-tree" th:href="${child.permUrl}"><span th:text="${child.permName}"></span></a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
