@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/static/plugins/layui/css/layui.css}">
+<form class="layui-form" action="" style="margin:20px 30px 20px 20px;font-size: 15px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" required lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <select name="city" lay-verify="required">
+                <option value=""></option>
+                <option value="0">管理员</option>
+                <option value="1">用户</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="zzz" lay-skin="switch" lay-text="正常|禁用" checked>
+        </div>
+    </div>
+</form>
+
+<script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/plugins/layui/layui.js}"></script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+</html>

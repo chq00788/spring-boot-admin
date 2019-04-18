@@ -75,11 +75,11 @@ public class IndexController {
     @RequestMapping("/system/user")
     public String user(Model model) {
         model.addAttribute("title", "用户管理");
-        return "system/user/userList";
+        return "system/user/list";
     }
 
     /**
-     * 跳转到用户管理页面
+     * 跳转到用户详情页面
      *
      * @param model
      * @return
@@ -88,7 +88,16 @@ public class IndexController {
     public String toUserDetail(Model model, Integer id) {
         UserModel user = userService.getById(id);
         model.addAttribute("user", user);
-        return "system/user/userDetail";
+        return "system/user/detail";
+    }
+    /**
+     * 跳转到用户添加页面
+     *
+     * @return
+     */
+    @RequestMapping("/system/user/toAdd")
+    public String toUserAdd() {
+        return "system/user/add";
     }
 
     /**
