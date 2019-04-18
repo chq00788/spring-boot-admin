@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/static/plugins/layui/css/layui.css}">
+<form class="layui-form" action="" style="margin:20px 30px 20px 20px;text-align: center">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" style="width: 80%" class="layui-input" th:value="${user.realName}" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" style="width: 80%" class="layui-input" th:value="${user.username}" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" style="width: 80%" class="layui-input" th:value="${user.username == 1? '管理员' : '用户'}" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" style="width: 80%" class="layui-input" th:value="${user.isUsable == 1? '正常' : '禁用'}" disabled>
+        </div>
+    </div>
+</form>
+<script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/plugins/layui/layui.js}"></script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+</html>

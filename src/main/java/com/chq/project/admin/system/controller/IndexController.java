@@ -1,8 +1,6 @@
 package com.chq.project.admin.system.controller;
 
-import com.chq.project.admin.common.utils.SearchUtil;
 import com.chq.project.admin.system.model.PermissionModel;
-import com.chq.project.admin.system.model.RoleModel;
 import com.chq.project.admin.system.model.UserModel;
 import com.chq.project.admin.system.service.RoleService;
 import com.chq.project.admin.system.service.UserService;
@@ -76,8 +74,21 @@ public class IndexController {
      */
     @RequestMapping("/system/user")
     public String user(Model model) {
-        model.addAttribute("roleList", roleService.selectList(SearchUtil.getSearch(new RoleModel())));
-        return "system/user";
+        model.addAttribute("title", "用户管理");
+        return "system/user/userList";
+    }
+
+    /**
+     * 跳转到用户管理页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/system/user/toDetail")
+    public String toUserDetail(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "system/user/userDetail";
     }
 
     /**
@@ -89,6 +100,6 @@ public class IndexController {
     @RequestMapping("/system/role")
     public String role(Model model) {
         model.addAttribute("title", "角色管理");
-        return "system/role";
+        return "system/role/roleList";
     }
 }
