@@ -78,10 +78,10 @@ public class UserController {
 
     @ApiOperation(value = "保存信息", notes = "保存信息", httpMethod = "POST")
     @RequestMapping(value = "/save")
-    public Response<String> save(UserModel model, @RequestParam(value = "roleIds[]") Integer[] roleIds) {
+    public Response<String> save(UserModel model) {
         Response<String> response = new Response<>();
         try {
-            userService.insert(model, roleIds);
+            userService.insert(model);
             response.setResult("保存成功");
         } catch (Exception e) {
             log.error("保存用户管理信息异常！原因：{}", e.getStackTrace());

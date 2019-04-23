@@ -65,7 +65,8 @@
             elem: '#demo'
             , id: 'userTable'
             , toolbar: '#toolbarDemo'
-            , height: 'full-360'
+            , defaultToolbar: []
+            , height: 'full-310'
             , url: 'system/user/getListByPage' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
@@ -125,8 +126,8 @@
             e.preventDefault();
         });
         //头工具栏事件
-        table.on('toolbar(demo)', function(obj){
-            switch(obj.event){
+        table.on('toolbar(demo)', function (obj) {
+            switch (obj.event) {
                 case 'add':
                     layer.open({
                         title: '详情'
@@ -141,7 +142,8 @@
                 case 'isAll':
 
                     break;
-            };
+            }
+            ;
         });
         //监听工具条
         table.on('tool(demo)', function (obj) {
@@ -150,7 +152,7 @@
                 layer.open({
                     title: '详情'
                     , type: 2
-                    , area: ['500px', '500px']
+                    , area: ['400px', '400px']
                     , content: 'system/user/toDetail?id=' + data.id
                 });
             } else if (obj.event === 'del') {
