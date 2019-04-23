@@ -90,6 +90,19 @@ public class IndexController {
         model.addAttribute("user", user);
         return "system/user/detail";
     }
+
+    /**
+     * 跳转到用户编辑页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/system/user/toEdit")
+    public String toUserEdit(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "system/user/update";
+    }
     /**
      * 跳转到用户添加页面
      *

@@ -70,7 +70,8 @@
             , url: 'system/user/getListByPage' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                {type: 'checkbox'}
+                , {field: 'id', title: 'ID', width: 80, sort: true}
                 , {field: 'realName', title: '姓名', width: 120}
                 , {field: 'username', title: '用户名', width: 180}
                 , {field: 'userType', title: '类型', width: 120, templet: '#typeTpl'}
@@ -93,13 +94,28 @@
             }
         });
         form.on('switch(statusChanges)', function (data) {
+            console.log(data);
             var state = data.elem.checked;//判断开关状态
+            var isUsable = 0;
             if (state === true) {
-                layer.msg('该账号已启用');
-            } else {
-                layer.msg('该账号已禁用');
+                isUsable = 1;
             }
-
+            $.ajax({
+                url: "system/user/changeStatus",
+                type: "post",
+                data: {
+                    id: data.value,
+                    isUsable: isUsable
+                },
+                success: function (result) {
+                    if (result.success) {
+                        layer.msg('设置成功');
+                    } else {
+                        active['reload'].call(this);
+                        layer.msg('设置失败');
+                    }
+                }
+            });
         });
         var $ = layui.$, active = {
             reload: function () {
@@ -130,7 +146,7 @@
             switch (obj.event) {
                 case 'add':
                     layer.open({
-                        title: '详情'
+                        title: '添加'
                         , type: 2
                         , area: ['400px', '400px']
                         , content: 'system/user/toAdd'
@@ -175,17 +191,22 @@
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
-                layer.alert('编辑行:<br>' + JSON.stringify(data))
+                layer.open({
+                    title: '修改'
+                    , type: 2
+                    , area: ['400px', '400px']
+                    , content: 'system/user/toEdit?id=' + data.id
+                });
             }
         });
     });
 </script>
 <script type="text/html" id="statusTpl">
     {{#  if(d.isUsable == 1){ }}
-    <input type="checkbox" name="zzz" lay-skin="switch" value="{{d.status}}" lay-text="正常|禁用" lay-filter="statusChanges"
+    <input type="checkbox" name="zzz" lay-skin="switch" value="{{d.id}}" lay-text="正常|禁用" lay-filter="statusChanges"
            checked>
     {{#  } else { }}
-    <input type="checkbox" name="zzz" lay-skin="switch" value="{{d.status}}" lay-text="正常|禁用"
+    <input type="checkbox" name="zzz" lay-skin="switch" value="{{d.id}}" lay-text="正常|禁用"
            lay-filter="statusChanges">
     {{#  } }}
 </script>

@@ -44,8 +44,6 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void insert(UserModel model) {
         model.setIsDelete(0);
-        model.setIsUsable("1");
-        model.setUserType(2);
         model.setSalt("123456");
         model.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
         userDao.insert(model);

@@ -96,7 +96,10 @@ public class UserController {
     public Response<String> update(UserModel model) {
         Response<String> response = new Response<>();
         try {
-            userService.update(model);
+            UserModel oldModel = userService.getById(model.getId());
+            oldModel.setRealName(model.getRealName());
+            oldModel.setUserType(model.getUserType());
+            userService.update(oldModel);
             response.setResult("更新成功");
         } catch (Exception e) {
             log.error("更新用户管理信息异常！原因：{}", e.getStackTrace());
@@ -132,6 +135,23 @@ public class UserController {
             log.error("查询用户管理信息异常！原因：{}", e.getStackTrace());
             e.printStackTrace();
             response.setError("查询失败");
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "更新状态信息", notes = "更新状态信息", httpMethod = "GET")
+    @RequestMapping(value = "/changeStatus")
+    public Response<String> changeStatus(Integer id, String isUsable) {
+        Response<String> response = new Response<>();
+        try {
+            UserModel oldModel = userService.getById(id);
+            oldModel.setIsUsable(isUsable);
+            userService.update(oldModel);
+            response.setResult("更新状态成功");
+        } catch (Exception e) {
+            log.error("更新用户状态信息异常！原因：{}", e.getStackTrace());
+            e.printStackTrace();
+            response.setError("更新状态失败");
         }
         return response;
     }
