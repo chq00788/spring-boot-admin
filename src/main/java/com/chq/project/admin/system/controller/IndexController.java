@@ -1,10 +1,7 @@
 package com.chq.project.admin.system.controller;
 
-import com.chq.project.admin.common.utils.SearchUtil;
 import com.chq.project.admin.system.model.PermissionModel;
-import com.chq.project.admin.system.model.RoleModel;
 import com.chq.project.admin.system.model.UserModel;
-import com.chq.project.admin.system.service.RoleService;
 import com.chq.project.admin.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,10 +23,6 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
 
     /**
      * 跳转到首页
@@ -68,67 +61,6 @@ public class IndexController {
         return "redirect:/";
     }
 
-    /**
-     * 跳转到用户管理页面
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping("/system/user")
-    public String user(Model model) {
-        model.addAttribute("title", "用户管理");
-        return "system/user/list";
-    }
-
-    /**
-     * 跳转到用户详情页面
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping("/system/user/toDetail")
-    public String toUserDetail(Model model, Integer id) {
-        UserModel user = userService.getById(id);
-        model.addAttribute("user", user);
-        return "system/user/detail";
-    }
-
-    /**
-     * 跳转到用户编辑页面
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping("/system/user/toEdit")
-    public String toUserEdit(Model model, Integer id) {
-        UserModel user = userService.getById(id);
-        model.addAttribute("user", user);
-        return "system/user/update";
-    }
-
-    /**
-     * 跳转到用户添加页面
-     *
-     * @return
-     */
-    @RequestMapping("/system/user/toAdd")
-    public String toUserAdd() {
-        return "system/user/add";
-    }
-
-    /**
-     * 跳转到用户添加页面
-     *
-     * @return
-     */
-    @RequestMapping("/system/user/toRole")
-    public String toUserRole(Model model, Integer id) {
-        UserModel user = userService.getById(id);
-        model.addAttribute("user", user);
-        List<RoleModel> roleModels = roleService.selectRoleListByUserId(id);
-        model.addAttribute("roles", roleModels);
-        return "system/user/role";
-    }
 
     /**
      * 跳转到角色管理页面

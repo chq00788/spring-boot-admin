@@ -55,8 +55,7 @@
     layui.use(['form', 'layer'], function () {
         $ = layui.jquery;
         var form = layui.form;
-        var layer = layui.layer;
-
+        //关闭对话框
         $('#close').click(function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

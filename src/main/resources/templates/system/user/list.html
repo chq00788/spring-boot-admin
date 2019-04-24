@@ -49,7 +49,7 @@
                 </div>
             </form>
             <div class="layui-card-body" style="padding-top: 0">
-                <table id="demo" lay-filter="demo"></table>
+                <table id="userList" lay-filter="userList"></table>
             </div>
         </div>
     </div>
@@ -60,9 +60,9 @@
         var table = layui.table;
         var layer = layui.layer;
         form.render();
-        //第一个实例
-        var tableIns = table.render({
-            elem: '#demo'
+        //数据列表实例
+        table.render({
+            elem: '#userList'
             , id: 'userTable'
             , toolbar: '#toolbarDemo'
             , defaultToolbar: []
@@ -71,12 +71,12 @@
             , page: true //开启分页
             , cols: [[ //表头
                 {type: 'checkbox'}
-                , {field: 'id', title: 'ID', width: 80, sort: true}
-                , {field: 'realName', title: '姓名', width: 120}
-                , {field: 'username', title: '用户名', width: 180}
-                , {field: 'userType', title: '类型', width: 120, templet: '#typeTpl'}
-                , {field: 'status', title: '状态', width: 120, templet: '#statusTpl'}
-                , {fixed: 'right', width: 220, align: 'center', toolbar: '#barDemo'}
+                , {field: 'id', title: 'ID', sort: true, width: 80}
+                , {field: 'realName', title: '姓名'}
+                , {field: 'username', title: '用户名'}
+                , {field: 'userType', title: '类型', templet: '#typeTpl'}
+                , {field: 'status', title: '状态', templet: '#statusTpl'}
+                , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
             ]],
             parseData: function (res) { //res 即为原始返回的数据
                 var success = res.success;
@@ -90,9 +90,9 @@
                         "data": result.list //解析数据列表
                     };
                 }
-                console.log(res)
             }
         });
+        //监听状态开关事件
         form.on('switch(statusChanges)', function (data) {
             console.log(data);
             var state = data.elem.checked;//判断开关状态
@@ -122,7 +122,6 @@
                 var realName = $('#realNameSearch');
                 var username = $('#usernameSearch');
                 var isUsable = $('#isUsableSearch');
-
                 //执行重载
                 table.reload('userTable', {
                     page: {
@@ -136,13 +135,14 @@
                 });
             }
         };
+        //监听查询按钮点击事件
         $('#searchBtn').on('click', function (e) {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
             e.preventDefault();
         });
         //头工具栏事件
-        table.on('toolbar(demo)', function (obj) {
+        table.on('toolbar(userList)', function (obj) {
                 switch (obj.event) {
                     case 'add':
                         layer.open({
@@ -192,7 +192,7 @@
             }
         );
         //监听工具条
-        table.on('tool(demo)', function (obj) {
+        table.on('tool(userList)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
                 layer.open({
@@ -254,12 +254,14 @@
     <span>用户</span>
     {{#  } }}
 </script>
+<!--行操作-->
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="role">角色</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<!--数据表格工具条-->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>

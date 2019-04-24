@@ -3,7 +3,9 @@ package com.chq.project.admin.system.controller;
 import com.chq.project.admin.common.entity.Response;
 import com.chq.project.admin.common.utils.SearchUtil;
 import com.chq.project.admin.system.model.PermissionModel;
+import com.chq.project.admin.system.model.RoleModel;
 import com.chq.project.admin.system.model.UserModel;
+import com.chq.project.admin.system.service.RoleService;
 import com.chq.project.admin.system.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,9 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -29,13 +33,16 @@ import java.util.List;
  * @date 2019-01-19
  */
 @Api(tags = {"用户管理操作接口"}, description = "用户管理操作接口")
-@RestController
+@Controller
 @RequestMapping("/system/user")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
 
     @ApiOperation(value = "查询分页信息", notes = "查询分页信息", httpMethod = "GET")
@@ -44,6 +51,7 @@ public class UserController {
             @ApiImplicitParam(name = "limit", value = "每页条数", required = true, paramType = "query", dataType = "int")
     })
     @RequestMapping(value = "/getListByPage")
+    @ResponseBody
     public Response<PageInfo<UserModel>> getListByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                                        @RequestParam(value = "limit", defaultValue = "10") int limit,
                                                        UserModel model) {
@@ -63,6 +71,7 @@ public class UserController {
 
     @ApiOperation(value = "查询信息列表", notes = "查询信息列表", httpMethod = "GET")
     @RequestMapping(value = "/getList")
+    @ResponseBody
     public Response<List<UserModel>> getList(UserModel model) {
         Response<List<UserModel>> response = new Response<>();
         try {
@@ -78,6 +87,7 @@ public class UserController {
 
     @ApiOperation(value = "保存信息", notes = "保存信息", httpMethod = "POST")
     @RequestMapping(value = "/save")
+    @ResponseBody
     public Response<String> save(UserModel model) {
         Response<String> response = new Response<>();
         try {
@@ -93,6 +103,7 @@ public class UserController {
 
     @ApiOperation(value = "更新信息", notes = "更新信息", httpMethod = "POST")
     @RequestMapping(value = "/update")
+    @ResponseBody
     public Response<String> update(UserModel model) {
         Response<String> response = new Response<>();
         try {
@@ -111,6 +122,7 @@ public class UserController {
 
     @ApiOperation(value = "删除信息", notes = "删除信息", httpMethod = "GET")
     @RequestMapping(value = "/delete")
+    @ResponseBody
     public Response<String> delete(@RequestParam(value = "id") Integer id) {
         Response<String> response = new Response<>();
         try {
@@ -126,6 +138,7 @@ public class UserController {
 
     @ApiOperation(value = "根据ID查询信息", notes = "根据ID查询信息", httpMethod = "GET")
     @RequestMapping(value = "/getById")
+    @ResponseBody
     public Response<UserModel> getById(@RequestParam(value = "id") Integer id) {
         Response<UserModel> response = new Response<>();
         try {
@@ -141,6 +154,7 @@ public class UserController {
 
     @ApiOperation(value = "更新状态信息", notes = "更新状态信息", httpMethod = "GET")
     @RequestMapping(value = "/changeStatus")
+    @ResponseBody
     public Response<String> changeStatus(Integer id, String isUsable) {
         Response<String> response = new Response<>();
         try {
@@ -158,6 +172,7 @@ public class UserController {
 
     @ApiOperation(value = "根据用户名查询信息", notes = "根据ID查询信息", httpMethod = "GET")
     @RequestMapping(value = "/getByUsername")
+    @ResponseBody
     public Response<UserModel> getByUsername(String username) {
         Response<UserModel> response = new Response<>();
         try {
@@ -174,6 +189,7 @@ public class UserController {
 
     @ApiOperation(value = "查询用户菜单权限信息", notes = "查询用户菜单权限信息", httpMethod = "GET")
     @RequestMapping(value = "/getMenuListByUser")
+    @ResponseBody
     public Response<List<PermissionModel>> getMenuListByUser(Authentication authentication) {
         Response<List<PermissionModel>> response = new Response<>();
         try {
@@ -190,6 +206,7 @@ public class UserController {
 
     @ApiOperation(value = "更新用户角色信息", notes = "更新用户角色信息", httpMethod = "GET")
     @RequestMapping(value = "/setRole")
+    @ResponseBody
     public Response<String> setRole(Integer id, @RequestParam(value = "roles[]") Integer[] roles) {
         Response<String> response = new Response<>();
         try {
@@ -205,6 +222,7 @@ public class UserController {
 
     @ApiOperation(value = "批量删除信息", notes = "批量删除信息", httpMethod = "GET")
     @RequestMapping(value = "/batchDelete")
+    @ResponseBody
     public Response<String> batchDelete(@RequestParam(value = "ids[]") Integer[] ids) {
         Response<String> response = new Response<>();
         try {
@@ -218,5 +236,67 @@ public class UserController {
             response.setError("批量删除失败");
         }
         return response;
+    }
+
+    /**
+     * 跳转到用户管理页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toList")
+    public String toList(Model model) {
+        model.addAttribute("title", "用户管理");
+        return "system/user/list";
+    }
+
+    /**
+     * 跳转到用户详情页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toDetail")
+    public String toDetail(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "system/user/detail";
+    }
+
+    /**
+     * 跳转到用户编辑页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toEdit")
+    public String toEdit(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "system/user/update";
+    }
+
+    /**
+     * 跳转到用户添加页面
+     *
+     * @return
+     */
+    @RequestMapping("/toAdd")
+    public String toAdd() {
+        return "system/user/add";
+    }
+
+    /**
+     * 跳转到用户角色设置页面
+     *
+     * @return
+     */
+    @RequestMapping("/toRole")
+    public String toUserRole(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        List<RoleModel> roleModels = roleService.selectRoleListByUserId(id);
+        model.addAttribute("roles", roleModels);
+        return "system/user/role";
     }
 }
