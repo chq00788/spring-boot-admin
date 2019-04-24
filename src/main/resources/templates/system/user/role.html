@@ -5,11 +5,13 @@
 <div class="layui-form" style="margin:20px 30px 20px 20px;font-size: 15px">
     <form class="layui-form" action="" lay-filter="role">
         <input type="hidden" th:value="${user.id}" name="id">
-        <div th:each="role:${roles}" style="margin: 5px">
-            <input type="checkbox" name="role" th:title="${role.roleName}" th:value="${role.id}" lay-skin="primary"
-                   th:checked="${role.checked==1?true:false}">
+        <div style="height: 250px;overflow: hidden;overflow-y: auto;">
+            <div th:each="role:${roles}" style="margin: 5px">
+                <input type="checkbox" name="role" th:title="${role.roleName}" th:value="${role.id}" lay-skin="primary"
+                       th:checked="${role.checked==1?true:false}">
+            </div>
         </div>
-        <div class="layui-form-item" style=" float: right;margin-right: 5px;margin-top: 10px">
+        <div class="layui-form-item" style=" float: right;margin-right: 5px;margin-top: 20px">
 
             <button class="layui-btn layui-btn-normal" lay-filter="setRole" lay-submit="">
                 提交
@@ -32,14 +34,14 @@
         });
         //监听提交
         form.on('submit(setRole)', function (data) {
-            var r=document.getElementsByName("role");
-            var role=[];
-            for(var i=0;i<r.length;i++){
-                if(r[i].checked){
+            var r = document.getElementsByName("role");
+            var role = [];
+            for (var i = 0; i < r.length; i++) {
+                if (r[i].checked) {
                     role.push(r[i].value);
                 }
             }
-            data.field.roles=role;
+            data.field.roles = role;
             console.log(data.field);
             $.ajax({
                 url: "setRole",
