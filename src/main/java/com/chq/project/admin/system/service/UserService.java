@@ -89,6 +89,21 @@ public class UserService {
     }
 
     /**
+     * 保存用户角色信息
+     *
+     * @param userId
+     * @param roleIds
+     */
+    public void saveUserRole(Integer userId, Integer[] roleIds) {
+        //删除原来的角色信息
+        userDao.deleteUserRole(userId);
+        //保存新的角色信息
+        for (int i = 0; i < roleIds.length; i++) {
+            userDao.saveUserRole(userId, roleIds[i]);
+        }
+    }
+
+    /**
      * 根据用户名查询用户菜单权限
      *
      * @param username

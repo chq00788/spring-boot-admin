@@ -187,4 +187,36 @@ public class UserController {
         }
         return response;
     }
+
+    @ApiOperation(value = "更新用户角色信息", notes = "更新用户角色信息", httpMethod = "GET")
+    @RequestMapping(value = "/setRole")
+    public Response<String> setRole(Integer id, @RequestParam(value = "roles[]") Integer[] roles) {
+        Response<String> response = new Response<>();
+        try {
+            userService.saveUserRole(id, roles);
+            response.setResult("更新用户角色信息成功");
+        } catch (Exception e) {
+            log.error("更新用户角色信息异常！原因：{}", e.getStackTrace());
+            e.printStackTrace();
+            response.setError("更新用户角色信息失败");
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "批量删除信息", notes = "批量删除信息", httpMethod = "GET")
+    @RequestMapping(value = "/batchDelete")
+    public Response<String> batchDelete(@RequestParam(value = "ids[]") Integer[] ids) {
+        Response<String> response = new Response<>();
+        try {
+            for (int i = 0; i < ids.length; i++) {
+                userService.delete(ids[i]);
+            }
+            response.setResult("批量删除信息成功");
+        } catch (Exception e) {
+            log.error("批量删除用户管理信息异常！原因：{}", e.getStackTrace());
+            e.printStackTrace();
+            response.setError("批量删除失败");
+        }
+        return response;
+    }
 }

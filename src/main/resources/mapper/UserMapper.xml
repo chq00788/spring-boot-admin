@@ -122,7 +122,10 @@
         #{roleId}
         )
     </insert>
-
+    <delete id="deleteUserRole">
+        delete from t_system_user_role
+        where user_id = #{userId}
+    </delete>
 
     <resultMap id="permResultMap" type="com.chq.project.admin.system.model.UserModel">
         <id property="id" column="id"/>

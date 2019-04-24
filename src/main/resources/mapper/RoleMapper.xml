@@ -11,11 +11,12 @@
     </sql>
 
     <resultMap id="baseResultMap" type="com.chq.project.admin.system.model.RoleModel">
-            <id property="id" column="id"/>
-            <result property="roleCode" column="role_code"/>
-            <result property="roleName" column="role_name"/>
-            <result property="isUsable" column="is_usable"/>
-            <result property="isDelete" column="is_delete"/>
+        <id property="id" column="id"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+        <result property="isUsable" column="is_usable"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="checked" column="checked"/>
     </resultMap>
 
     <sql id="selectiveWhere">
@@ -51,16 +52,16 @@
         UPDATE t_system_role
         <set>
             <if test="roleCode != null and roleCode !=''  ">
-            role_code = #{roleCode},
+                role_code = #{roleCode},
             </if>
             <if test="roleName != null and roleName !=''  ">
-            role_name = #{roleName},
+                role_name = #{roleName},
             </if>
             <if test="isUsable != null and isUsable !=''  ">
-            is_usable = #{isUsable},
+                is_usable = #{isUsable},
             </if>
             <if test="isDelete != null and isDelete !=''  ">
-            is_delete = #{isDelete},
+                is_delete = #{isDelete},
             </if>
         </set>
         WHERE id = #{id}
@@ -78,4 +79,23 @@
         WHERE id = #{id}
     </select>
 
+
+    <select id="selectRoleListByUserId" resultMap="baseResultMap">
+        SELECT
+            r.*, (
+                CASE
+                WHEN u.user_id IS NULL THEN
+                    0
+                ELSE
+                    1
+                END
+            ) checked
+        FROM
+            t_system_role r
+        LEFT JOIN t_system_user_role u ON r.id = u.role_id
+        AND u.user_id = #{userId}
+        WHERE
+            r.is_delete = 0
+        AND r.is_usable = 1
+    </select>
 </mapper>

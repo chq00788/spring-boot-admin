@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/static/plugins/layui/css/layui.css}">
+
+<div class="layui-form" style="margin:20px 30px 20px 20px;font-size: 15px">
+    <form class="layui-form" action="" lay-filter="role">
+        <input type="hidden" th:value="${user.id}" name="id">
+        <div th:each="role:${roles}" style="margin: 5px">
+            <input type="checkbox" name="role" th:title="${role.roleName}" th:value="${role.id}" lay-skin="primary"
+                   th:checked="${role.checked==1?true:false}">
+        </div>
+        <div class="layui-form-item" style=" float: right;margin-right: 5px;margin-top: 10px">
+
+            <button class="layui-btn layui-btn-normal" lay-filter="setRole" lay-submit="">
+                提交
+            </button>
+            <button class="layui-btn layui-btn-primary" id="close">
+                取消
+            </button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/static/plugins/jquery/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/plugins/layui/layui.js}"></script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+
+        $('#close').click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        //监听提交
+        form.on('submit(setRole)', function (data) {
+            var r=document.getElementsByName("role");
+            var role=[];
+            for(var i=0;i<r.length;i++){
+                if(r[i].checked){
+                    role.push(r[i].value);
+                }
+            }
+            data.field.roles=role;
+            console.log(data.field);
+            $.ajax({
+                url: "setRole",
+                type: "post",
+                data: data.field,
+                success: function (result) {
+                    if (result.success) {
+                        //关闭对话框
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        window.parent.layui.table.reload('userTable');
+                        window.top.layer.msg('设置成功');
+                    } else {
+                        window.top.layer.msg('设置失败');
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.render();
+    });
+</script>
+</html>

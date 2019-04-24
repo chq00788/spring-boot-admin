@@ -1,5 +1,7 @@
 package com.chq.project.admin.system.dao;
 import com.chq.project.admin.system.model.RoleModel;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.Map;
 import java.util.List;
 /**
@@ -50,4 +52,10 @@ public interface RoleDao {
     */
     RoleModel getById(Integer id);
 
+    /**
+     * 根据用户ID查询角色列表，如果该用户有角色权限，则checked=1
+     * @param userId
+     * @return
+     */
+    List<RoleModel> selectRoleListByUserId(@Param(value = "userId") Integer userId);
 }

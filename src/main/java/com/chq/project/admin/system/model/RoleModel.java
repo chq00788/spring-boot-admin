@@ -24,11 +24,14 @@ public class RoleModel {
     @ApiModelProperty(value = "角色名称")
     private String roleName;
 
-    @ApiModelProperty(value = "是否可用(0:不可用1:可用)",example = "123")
+    @ApiModelProperty(value = "是否可用(0:不可用1:可用)",example = "1")
     private Integer isUsable;
 
-    @ApiModelProperty(value = "是否删除(0:否1:是)",example = "123")
+    @ApiModelProperty(value = "是否删除(0:否1:是)",example = "0")
     private Integer isDelete;
+
+    @ApiModelProperty(value = "是否选中(0:否1:是)",example = "0")
+    private Integer checked;
 
     private List<PermissionModel> permissionList;
 
@@ -104,5 +107,13 @@ public class RoleModel {
 
     public void setPermissionList(List<PermissionModel> permissionList) {
         this.permissionList = permissionList;
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

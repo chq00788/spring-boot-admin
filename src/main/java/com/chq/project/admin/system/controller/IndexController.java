@@ -1,6 +1,8 @@
 package com.chq.project.admin.system.controller;
 
+import com.chq.project.admin.common.utils.SearchUtil;
 import com.chq.project.admin.system.model.PermissionModel;
+import com.chq.project.admin.system.model.RoleModel;
 import com.chq.project.admin.system.model.UserModel;
 import com.chq.project.admin.system.service.RoleService;
 import com.chq.project.admin.system.service.UserService;
@@ -103,6 +105,7 @@ public class IndexController {
         model.addAttribute("user", user);
         return "system/user/update";
     }
+
     /**
      * 跳转到用户添加页面
      *
@@ -111,6 +114,20 @@ public class IndexController {
     @RequestMapping("/system/user/toAdd")
     public String toUserAdd() {
         return "system/user/add";
+    }
+
+    /**
+     * 跳转到用户添加页面
+     *
+     * @return
+     */
+    @RequestMapping("/system/user/toRole")
+    public String toUserRole(Model model, Integer id) {
+        UserModel user = userService.getById(id);
+        model.addAttribute("user", user);
+        List<RoleModel> roleModels = roleService.selectRoleListByUserId(id);
+        model.addAttribute("roles", roleModels);
+        return "system/user/role";
     }
 
     /**

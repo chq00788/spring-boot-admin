@@ -87,4 +87,12 @@ public interface UserDao {
      * @return
      */
     Integer saveUserRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
+
+    /**
+     * 删除用户角色信息
+     *
+     * @param userId
+     * @return
+     */
+    Integer deleteUserRole(@Param(value = "userId") Integer userId);
 }
