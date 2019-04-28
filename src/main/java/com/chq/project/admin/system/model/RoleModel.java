@@ -24,6 +24,9 @@ public class RoleModel {
     @ApiModelProperty(value = "角色名称")
     private String roleName;
 
+    @ApiModelProperty(value = "角色描述")
+    private String roleDesc;
+
     @ApiModelProperty(value = "是否可用(0:不可用1:可用)",example = "1")
     private Integer isUsable;
 
@@ -115,5 +118,13 @@ public class RoleModel {
 
     public void setChecked(Integer checked) {
         this.checked = checked;
+    }
+
+    public String getRoleDesc() {
+        return roleDesc;
+    }
+
+    public void setRoleDesc(String roleDesc) {
+        this.roleDesc = roleDesc;
     }
 }

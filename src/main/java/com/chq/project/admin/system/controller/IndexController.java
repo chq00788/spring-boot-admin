@@ -97,16 +97,4 @@ public class IndexController {
         return "redirect:/";
     }
 
-
-    /**
-     * 跳转到角色管理页面
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping("/system/role")
-    public String role(Model model) {
-        model.addAttribute("title", "角色管理");
-        return "system/role/roleList";
-    }
 }

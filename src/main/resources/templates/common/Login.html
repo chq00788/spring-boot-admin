@@ -17,13 +17,13 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: #393D49">
 <div class="layui-container">
     <div class="layui-row">
         <div class="layui-col-md4 layui-col-md-offset4 login-form">
             <form class="layui-form" method="post" data-toggle="validator" th:action="@{/login/form}">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">账号</label>
+                    <label class="layui-form-label" style="color: #fff">账号</label>
                     <div class="layui-input-block">
                         <input type="text" name="username" required lay-verify="required" placeholder="请输入账号"
                                autocomplete="off"
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">密码</label>
+                    <label class="layui-form-label" style="color: #fff">密码</label>
                     <div class="layui-input-block">
                         <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
                                autocomplete="off"

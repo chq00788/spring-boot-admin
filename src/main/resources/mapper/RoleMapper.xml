@@ -6,6 +6,7 @@
         id,
         role_code,
         role_name,
+        role_desc,
         is_usable,
         is_delete
     </sql>
@@ -14,6 +15,7 @@
         <id property="id" column="id"/>
         <result property="roleCode" column="role_code"/>
         <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
         <result property="isUsable" column="is_usable"/>
         <result property="isDelete" column="is_delete"/>
         <result property="checked" column="checked"/>
@@ -38,11 +40,13 @@
         INSERT INTO t_system_role(
             role_code,
             role_name,
+            role_desc,
             is_usable,
             is_delete
         )VALUES(
             #{roleCode},
             #{roleName},
+            #{roleDesc},
             #{isUsable},
             #{isDelete}
         )
@@ -54,13 +58,16 @@
             <if test="roleCode != null and roleCode !=''  ">
                 role_code = #{roleCode},
             </if>
+            <if test="roleDesc != null and roleDesc !=''  ">
+                role_desc = #{roleDesc},
+            </if>
             <if test="roleName != null and roleName !=''  ">
                 role_name = #{roleName},
             </if>
-            <if test="isUsable != null and isUsable !=''  ">
+            <if test="isUsable != null">
                 is_usable = #{isUsable},
             </if>
-            <if test="isDelete != null and isDelete !=''  ">
+            <if test="isDelete != null">
                 is_delete = #{isDelete},
             </if>
         </set>
