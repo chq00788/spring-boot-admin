@@ -23,7 +23,18 @@
 
     <sql id="selectiveWhere">
         <where>
-
+            <if test="roleCode != null and roleCode !=''  ">
+                and role_code LIKE CONCAT('%',#{roleCode},'%')
+            </if>
+            <if test="roleName != null and roleName !=''  ">
+                and role_code LIKE CONCAT('%',#{roleName},'%')
+            </if>
+            <if test="isUsable != null">
+                and is_usable = #{isUsable}
+            </if>
+            <if test="1==1">
+                and is_delete = 0
+            </if>
         </where>
     </sql>
 

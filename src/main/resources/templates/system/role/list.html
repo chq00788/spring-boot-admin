@@ -17,19 +17,31 @@
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    角色筛选
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="roleName" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
                 <div class="layui-inline">
-                    <select name="rolename" lay-filter="LAY-user-adminrole-type">
-                        <option value="-1">全部角色</option>
-                        <option value="0">管理员</option>
-                        <option value="1">超级管理员</option>
-                        <option value="2">纠错员</option>
-                        <option value="3">采购员</option>
-                        <option value="4">推销员</option>
-                        <option value="5">运营人员</option>
-                        <option value="6">编辑</option>
-                    </select>
+                    <label class="layui-form-label">编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="roleCode" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline" style="width: 180px;">
+                        <select id="isUsableSearch" name="isUsable">
+                            <option></option>
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-role-back-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -68,13 +80,13 @@
             , form = layui.form
             , table = layui.table;
 
-        //搜索角色
-        form.on('select(LAY-user-adminrole-type)', function (data) {
+        //监听搜索
+        form.on('submit(LAY-role-back-search)', function(data){
+            var field = data.field;
+            console.log(field);
             //执行重载
             table.reload('LAY-user-back-role', {
-                where: {
-                    role: data.value
-                }
+                where: field
             });
         });
 
