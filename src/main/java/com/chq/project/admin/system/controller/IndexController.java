@@ -54,6 +54,30 @@ public class IndexController {
     }
 
     /**
+     * 跳转到首页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/home/homepage1")
+    public ModelAndView main1(ModelAndView model) {
+        model.setViewName("home/homepage1");
+        return model;
+    }
+
+    /**
+     * 跳转到首页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/home/homepage2")
+    public ModelAndView main2(ModelAndView model) {
+        model.setViewName("home/homepage2");
+        return model;
+    }
+
+    /**
      * 跳转到登录页面
      *
      * @return
