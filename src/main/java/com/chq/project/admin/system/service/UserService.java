@@ -9,10 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 描述：用户管理 服务实现层
@@ -45,6 +42,7 @@ public class UserService {
     public void insert(UserModel model) {
         model.setIsDelete(0);
         model.setSalt("123456");
+        model.setCreateTime(new Date());
         model.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
         userDao.insert(model);
     }
@@ -86,6 +84,16 @@ public class UserService {
      */
     public UserModel getByUsername(String username) {
         return userDao.getByUsername(username);
+    }
+
+    /**
+     * 根据用户名查询用户信息
+     *
+     * @param username
+     * @return
+     */
+    public UserModel getInfoByUsername(String username) {
+        return userDao.getInfoByUsername(username);
     }
 
     /**

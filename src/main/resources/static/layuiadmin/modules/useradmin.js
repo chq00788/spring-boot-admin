@@ -14,23 +14,32 @@ layui.define(['table', 'form'], function (exports) {
     //用户管理
     table.render({
         elem: '#LAY-user-manage'
-        , url: layui.setter.base + 'json/useradmin/webuser.js' //模拟接口
+        , url: 'getListByPage' //模拟接口
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 100, title: 'ID', sort: true}
-            , {field: 'username', title: '用户名', minWidth: 100}
-            , {field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
-            , {field: 'phone', title: '手机'}
-            , {field: 'email', title: '邮箱'}
-            , {field: 'sex', width: 80, title: '性别'}
-            , {field: 'ip', title: 'IP'}
-            , {field: 'jointime', title: '加入时间', sort: true}
-            , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-webuser'}
+            , {field: 'realName', title: '姓名'}
+            , {field: 'username', title: '账号'}
+            , {field: 'userType', title: '类型', templet: '#userTypeTpl'}
+            , {field: 'isUsable', title: '状态', templet: '#buttonTpl'}
+            , {field: 'createTime', title: '创建时间'}
+            , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin-user'}
         ]]
         , page: true
-        , limit: 30
+        , limit: 10
         , height: 'full-220'
-        , text: '对不起，加载出现异常！'
+        , parseData: function (res) { //res 即为原始返回的数据
+            var success = res.success;
+            if (success) {
+                var result = res.result;
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": '', //解析提示文本
+                    "count": result.total, //解析数据长度
+                    "data": result.list //解析数据列表
+                };
+            }
+        }
     });
 
     //监听工具条

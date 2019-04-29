@@ -1,7 +1,9 @@
 package com.chq.project.admin.system.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,6 +39,14 @@ public class UserModel {
 
     @ApiModelProperty(value = "是否删除(0:否1:是)", example = "123")
     private Integer isDelete;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    @ApiModelProperty(value = "最后登录时间")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
 
     private List<RoleModel> roleList;
 
@@ -137,5 +147,21 @@ public class UserModel {
 
     public void setRoleList(List<RoleModel> roleList) {
         this.roleList = roleList;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

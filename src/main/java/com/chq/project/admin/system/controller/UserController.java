@@ -91,6 +91,12 @@ public class UserController {
     public Response<String> save(UserModel model) {
         Response<String> response = new Response<>();
         try {
+            //检查用户名重复
+            UserModel user = userService.getInfoByUsername(model.getUsername());
+            if (null != user) {
+                response.setError("账号已存在");
+                return response;
+            }
             userService.insert(model);
             response.setResult("保存成功");
         } catch (Exception e) {

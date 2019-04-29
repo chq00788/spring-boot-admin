@@ -9,7 +9,9 @@
         user_type,
         salt,
         is_usable,
-        is_delete
+        is_delete,
+        create_time,
+        last_login_time
     </sql>
 
     <resultMap id="baseResultMap" type="com.chq.project.admin.system.model.UserModel">
@@ -21,6 +23,8 @@
         <result property="salt" column="salt"/>
         <result property="isUsable" column="is_usable"/>
         <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastLoginTime" column="last_login_time"/>
     </resultMap>
 
     <sql id="selectiveWhere">
@@ -61,7 +65,8 @@
             user_type,
             salt,
             is_usable,
-            is_delete
+            is_delete,
+            create_time
         )VALUES(
             #{username},
             #{password},
@@ -69,7 +74,8 @@
             #{userType},
             #{salt},
             #{isUsable},
-            #{isDelete}
+            #{isDelete},
+            #{createTime}
         )
     </insert>
 
@@ -113,6 +119,13 @@
         WHERE id = #{id}
     </select>
 
+    <select id="getInfoByUsername" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_system_user
+        WHERE username = #{username}
+    </select>
+
     <insert id="saveUserRole">
         insert into t_system_user_role(
         user_id,
@@ -136,6 +149,8 @@
         <result property="salt" column="salt"/>
         <result property="isUsable" column="is_usable"/>
         <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastLoginTime" column="last_login_time"/>
         <collection property="roleList" ofType="com.chq.project.admin.system.model.RoleModel">
             <id property="id" column="role_id"/>
             <result property="roleCode" column="role_code"/>
@@ -231,6 +246,8 @@
         u.salt,
         u.is_usable,
         u.is_delete,
+        u.create_time,
+        u.last_login_time,
         r.id role_id,
         r.role_code,
         r.role_name,
