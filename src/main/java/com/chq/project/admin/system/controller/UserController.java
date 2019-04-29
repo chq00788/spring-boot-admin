@@ -279,7 +279,7 @@ public class UserController {
     public String toEdit(Model model, Integer id) {
         UserModel user = userService.getById(id);
         model.addAttribute("user", user);
-        return "system/user/update";
+        return "system/user/edit";
     }
 
     /**

@@ -63,7 +63,7 @@ layui.define(['table', 'form'], function (exports) {
             layer.open({
                 type: 2
                 , title: '编辑用户'
-                , content: '../../../views/user/user/userform.html'
+                , content: 'toEdit'
                 , maxmin: true
                 , area: ['500px', '450px']
                 , btn: ['确定', '取消']

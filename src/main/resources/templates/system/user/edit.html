@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>添加用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/static/layuiadmin/layui/css/layui.css}" media="all">
+</head>
+<body>
+
+<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+    <input th:value="${user.id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="realName" lay-verify="realName" placeholder="请输入" autocomplete="off"
+                   class="layui-input" th:value="${user.realName}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="username" placeholder="请输入" autocomplete="off"
+                   class="layui-input" th:value="${user.username}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <select name="userType" lay-verify="required">
+                <option value="2" cheched>用户</option>
+                <option value="1">管理员</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="isUsable" lay-skin="switch" lay-text="正常|禁用"
+                   th:checked="${role.isUsable==1?true:false}">
+        </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+        <button class="layui-btn" lay-submit lay-filter="LAY-user-submit" id="LAY-user-submit">提交</button>
+    </div>
+</div>
+
+<script th:src="@{/static/layuiadmin/layui/layui.js}"></script>
+<script>
+    layui.config({
+        base: '/static/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form;
+        //表单初始赋值
+        form.val('example', {
+            "userType": [[${user.userType}]]
+        });
+        //自定义验证规则
+        form.verify({
+            realName: function (value) {
+                if (value.length < 2) {
+                    return '姓名至少得2个字符';
+                }
+            }
+            , username: function (value) {
+                if (value.length < 3) {
+                    return '账号至少得3个字符';
+                }
+            }
+            , password: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+        });
+    })
+</script>
+</body>
+</html>
