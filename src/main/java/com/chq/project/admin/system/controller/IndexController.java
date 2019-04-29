@@ -1,6 +1,6 @@
 package com.chq.project.admin.system.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.chq.project.admin.common.entity.Response;
 import com.chq.project.admin.system.model.PermissionModel;
 import com.chq.project.admin.system.model.UserModel;
 import com.chq.project.admin.system.service.UserService;
@@ -95,12 +95,10 @@ public class IndexController {
      */
     @RequestMapping("/logout")
     @ResponseBody
-    public String logout() {
-        JSONObject result = new JSONObject();
-        result.put("code", 0);
-        result.put("msg", "退出成功");
-        result.put("data", null);
-        return result.toString();
+    public Response<String> logout() {
+        Response<String> response = new Response<>();
+        response.setResult("退出成功");
+        return response;
     }
 
     /**
