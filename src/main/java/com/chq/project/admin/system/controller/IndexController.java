@@ -1,5 +1,6 @@
 package com.chq.project.admin.system.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chq.project.admin.system.model.PermissionModel;
 import com.chq.project.admin.system.model.UserModel;
 import com.chq.project.admin.system.service.UserService;
@@ -7,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -85,6 +86,21 @@ public class IndexController {
     @RequestMapping("/login")
     public String login() {
         return "common/login";
+    }
+
+    /**
+     * 跳转到登录页面
+     *
+     * @return
+     */
+    @RequestMapping("/logout")
+    @ResponseBody
+    public String logout() {
+        JSONObject result = new JSONObject();
+        result.put("code", 0);
+        result.put("msg", "退出成功");
+        result.put("data", null);
+        return result.toString();
     }
 
     /**

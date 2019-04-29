@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/loginSuccess")
                 .permitAll() //登录页面用户任意访问
                 .and()
-                .logout().permitAll()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll()
                 .and()
                 .headers()
                 .frameOptions().sameOrigin();
