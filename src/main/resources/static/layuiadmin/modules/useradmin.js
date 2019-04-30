@@ -59,11 +59,10 @@ layui.define(['table', 'form'], function (exports) {
             });
         } else if (obj.event === 'edit') {
             var tr = $(obj.tr);
-
             layer.open({
                 type: 2
                 , title: '编辑用户'
-                , content: 'toEdit'
+                , content: 'toEdit?id=' + data.id
                 , maxmin: true
                 , area: ['500px', '450px']
                 , btn: ['确定', '取消']
