@@ -18,10 +18,13 @@
         }
     </style>
 </head>
-<body style="background-color: #393D49">
+<body style="background-color: #000000">
 <div class="layui-container">
     <div class="layui-row">
+
         <div class="layui-col-md4 layui-col-md-offset4 login-form">
+            <img th:src="@{/static/img/logo.png}" style="width: 160px;margin-left: 150px;margin-bottom: 10px">
+
             <form class="layui-form" method="post" data-toggle="validator" th:action="@{/login/form}">
                 <div class="layui-form-item">
                     <label class="layui-form-label" style="color: #fff">账号</label>
@@ -42,7 +45,7 @@
 
                 <div class="layui-form-item">
                     <div class="layui-input-block login-form-submit">
-                        <button type="submit" class="layui-btn">登录</button>
+                        <button type="submit" class="layui-btn" style="margin-left: 120px">登录</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
