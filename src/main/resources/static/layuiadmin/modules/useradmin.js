@@ -68,17 +68,31 @@ layui.define(['table', 'form'], function (exports) {
                 , btn: ['确定', '取消']
                 , yes: function (index, layero) {
                     var iframeWindow = window['layui-layer-iframe' + index]
-                        , submitID = 'LAY-user-front-submit'
+                        , submitID = 'LAY-user-edit-submit'
                         , submit = layero.find('iframe').contents().find('#' + submitID);
 
                     //监听提交
                     iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
                         var field = data.field; //获取提交的字段
-
-                        //提交 Ajax 成功后，静态更新表格中的数据
-                        //$.ajax({});
-                        table.reload('LAY-user-front-submit'); //数据刷新
-                        layer.close(index); //关闭弹层
+                        if (field.isUsable === "on") {
+                            field.isUsable = '1';
+                        } else {
+                            field.isUsable = '0';
+                        }
+                        $.ajax({
+                            url: "update",
+                            type: "post",
+                            data: field,
+                            success: function (result) {
+                                if (result.success) {
+                                    table.reload('LAY-user-manage'); //数据刷新
+                                    layer.close(index); //关闭弹层
+                                    layer.msg('修改成功');
+                                } else {
+                                    layer.msg('修改失败');
+                                }
+                            }
+                        });
                     });
 
                     submit.trigger('click');
@@ -103,16 +117,20 @@ layui.define(['table', 'form'], function (exports) {
                     //监听提交
                     iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
                         var field = data.field; //获取提交的字段
-                        console.log(submit);
+                        var param = [];
                         var roles = [];
-                        for (var i in field.role[0]) {
-                            roles.push(field[i])
+                        for (var i in field) {
+                            param.push(field[i])
+                        }
+                        console.log(param);
+                        for (var i = 1; i < param.length; i++) {
+                            roles.push(param[i]);
                         }
                         console.log(roles);
+                        field.roles = roles;
                         $.ajax({
                             url: "setRole",
                             type: "post",
-
                             data: field,
                             success: function (result) {
                                 if (result.success) {

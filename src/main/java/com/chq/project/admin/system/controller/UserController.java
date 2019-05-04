@@ -116,6 +116,7 @@ public class UserController {
             UserModel oldModel = userService.getById(model.getId());
             oldModel.setRealName(model.getRealName());
             oldModel.setUserType(model.getUserType());
+            oldModel.setIsUsable(model.getIsUsable());
             userService.update(oldModel);
             response.setResult("更新成功");
         } catch (Exception e) {

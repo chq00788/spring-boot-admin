@@ -15,7 +15,7 @@
     <input th:value="${user.id}" hidden="hidden" name="id">
     <div style="height: 250px;overflow: hidden;overflow-y: auto;margin-left: 30px">
         <div th:each="role:${roles}" style="margin: 5px">
-            <input type="checkbox" name="role" th:title="${role.roleName}" th:value="${role.id}" lay-skin="primary"
+            <input type="checkbox" name="role[]" th:title="${role.roleName}" th:value="${role.id}" lay-skin="primary"
                    th:checked="${role.checked==1?true:false}">
         </div>
     </div>

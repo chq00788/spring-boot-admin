@@ -12,7 +12,7 @@
 <body>
 
 <div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
-    <input th:value="${user.id}" hidden="hidden">
+    <input name="id" th:value="${user.id}" hidden="hidden">
     <div class="layui-form-item">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-block">
@@ -40,11 +40,11 @@
         <label class="layui-form-label">状态</label>
         <div class="layui-input-block">
             <input type="checkbox" name="isUsable" lay-skin="switch" lay-text="正常|禁用"
-                   th:checked="${user.isUsable==1?true:false}">
+                   th:checked="${user.isUsable=='1'?true:false}">
         </div>
     </div>
     <div class="layui-form-item layui-hide">
-        <button class="layui-btn" lay-submit lay-filter="LAY-user-submit" id="LAY-user-submit">提交</button>
+        <button class="layui-btn" lay-submit lay-filter="LAY-user-edit-submit" id="LAY-user-edit-submit">提交</button>
     </div>
 </div>
 
