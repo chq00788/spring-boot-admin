@@ -23,7 +23,7 @@ layui.define(['table', 'form'], function (exports) {
             , {field: 'userType', title: '类型', templet: '#userTypeTpl'}
             , {field: 'isUsable', title: '状态', templet: '#buttonTpl'}
             , {field: 'createTime', title: '创建时间'}
-            , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin-user'}
+            , {title: '操作', width: 240, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin-user'}
         ]]
         , page: true
         , limit: 10
@@ -79,6 +79,51 @@ layui.define(['table', 'form'], function (exports) {
                         //$.ajax({});
                         table.reload('LAY-user-front-submit'); //数据刷新
                         layer.close(index); //关闭弹层
+                    });
+
+                    submit.trigger('click');
+                }
+                , success: function (layero, index) {
+
+                }
+            });
+        } else if (obj.event === 'role') {
+            layer.open({
+                type: 2
+                , title: '角色设置'
+                , content: 'toRole?id=' + data.id
+                , maxmin: true
+                , area: ['500px', '450px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submitID = 'LAY-user-role-submit'
+                        , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                        var field = data.field; //获取提交的字段
+                        console.log(submit);
+                        var roles = [];
+                        for (var i in field.role[0]) {
+                            roles.push(field[i])
+                        }
+                        console.log(roles);
+                        $.ajax({
+                            url: "setRole",
+                            type: "post",
+
+                            data: field,
+                            success: function (result) {
+                                if (result.success) {
+                                    table.reload('LAY-user-manage'); //数据刷新
+                                    layer.close(index); //关闭弹层
+                                    layer.msg('设置成功');
+                                } else {
+                                    layer.msg('设置失败');
+                                }
+                            }
+                        });
                     });
 
                     submit.trigger('click');
