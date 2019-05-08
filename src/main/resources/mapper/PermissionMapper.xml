@@ -26,6 +26,7 @@
         <result property="permIcon" column="perm_icon"/>
         <result property="isUsable" column="is_usable"/>
         <result property="isDelete" column="is_delete"/>
+        <result property="checked" column="checked"/>
     </resultMap>
 
     <sql id="selectiveWhere">
@@ -119,6 +120,26 @@
         <include refid="baseColumn"/>
         FROM t_system_permission
         WHERE id = #{id}
+    </select>
+
+    <select id="getPermListByRoleId" resultMap="baseResultMap">
+        SELECT
+            b.*,
+            (
+                CASE
+                WHEN d.role_id IS NOT NULL THEN
+                    1
+                ELSE
+                    0
+                END
+            ) checked
+        FROM
+            t_system_permission b
+        LEFT JOIN t_system_role_perm d ON b.id = d.perm_id
+        AND d.role_id = #{roleId}
+        WHERE
+            b.is_delete = 0
+        AND b.is_usable = 1
     </select>
 
 </mapper>

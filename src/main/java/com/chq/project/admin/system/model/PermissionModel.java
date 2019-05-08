@@ -38,11 +38,14 @@ public class PermissionModel {
     @ApiModelProperty(value = "图标")
     private String permIcon;
 
-    @ApiModelProperty(value = "是否可用(0:不可用1:可用)", example = "123")
+    @ApiModelProperty(value = "是否可用(0:不可用1:可用)", example = "1")
     private Integer isUsable;
 
-    @ApiModelProperty(value = "是否删除(0:否1:是)", example = "123")
+    @ApiModelProperty(value = "是否删除(0:否1:是)", example = "0")
     private Integer isDelete;
+
+    @ApiModelProperty(value = "是否选中",example = "1")
+    private Integer checked;
 
     /**
      * 子节点
@@ -185,5 +188,13 @@ public class PermissionModel {
 
     public void setPermIcon(String permIcon) {
         this.permIcon = permIcon;
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

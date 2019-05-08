@@ -1,6 +1,7 @@
 package com.chq.project.admin.system.dao;
 
 import com.chq.project.admin.system.model.PermissionModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -60,5 +61,13 @@ public interface PermissionDao {
      * @return
      */
     PermissionModel getById(Integer id);
+
+    /**
+     * 根据角色查询权限信息
+     *
+     * @param roleId
+     * @return
+     */
+    List<PermissionModel> getPermListByRoleId(@Param("roleId") Integer roleId);
 
 }

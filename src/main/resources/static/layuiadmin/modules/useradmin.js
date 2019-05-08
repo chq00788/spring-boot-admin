@@ -134,7 +134,6 @@ layui.define(['table', 'form'], function (exports) {
                         for (var i = 1; i < param.length; i++) {
                             roles.push(param[i]);
                         }
-                        console.log(roles);
                         field.roles = roles;
                         $.ajax({
                             url: "setRole",
@@ -173,7 +172,7 @@ layui.define(['table', 'form'], function (exports) {
             , {field: 'roleCode', title: '角色编码'}
             , {field: 'isUsable', title: '状态', templet: '#buttonTpl'}
             , {field: 'roleDesc', title: '描述'}
-            , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
+            , {title: '操作', width: 220, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
         ]]
         , parseData: function (res) { //res 即为原始返回的数据
             var success = res.success;
@@ -243,6 +242,50 @@ layui.define(['table', 'form'], function (exports) {
                                     layer.msg('修改成功');
                                 } else {
                                     layer.msg('修改失败');
+                                }
+                            }
+                        });
+                    });
+                    submit.trigger('click');
+                }
+                , success: function (layero, index) {
+                }
+            })
+        } else if (obj.event === 'perm') {
+            layer.open({
+                type: 2
+                , title: '权限配置'
+                , content: 'toPerm?id=' + data.id
+                , area: ['500px', '480px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function (data) {
+                        var field = data.field; //获取提交的字段
+                        var param = [];
+                        var perms = [];
+                        for (var i in field) {
+                            param.push(field[i])
+                        }
+                        for (var i = 1; i < param.length; i++) {
+                            perms.push(param[i]);
+                        }
+                        field.perms = perms;
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        $.ajax({
+                            url: "setPerm",
+                            type: "post",
+                            data: field,
+                            success: function (result) {
+                                if (result.success) {
+                                    table.reload('LAY-user-back-role'); //数据刷新
+                                    layer.close(index); //关闭弹层
+                                    layer.msg('设置成功');
+                                } else {
+                                    layer.msg('设置失败');
                                 }
                             }
                         });

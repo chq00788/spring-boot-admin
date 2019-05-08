@@ -2,7 +2,9 @@ package com.chq.project.admin.system.controller;
 
 import com.chq.project.admin.common.entity.Response;
 import com.chq.project.admin.common.utils.SearchUtil;
+import com.chq.project.admin.system.model.PermissionModel;
 import com.chq.project.admin.system.model.RoleModel;
+import com.chq.project.admin.system.service.PermissionService;
 import com.chq.project.admin.system.service.RoleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -36,6 +38,9 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
 
 
     @ApiOperation(value = "查询分页信息", notes = "查询分页信息", httpMethod = "GET")
@@ -160,6 +165,38 @@ public class RoleController {
         return response;
     }
 
+    @ApiOperation(value = "查询权限信息列表", notes = "查询权限信息列表", httpMethod = "GET")
+    @RequestMapping(value = "/getPermList")
+    @ResponseBody
+    public Response<List<PermissionModel>> getPermList(@RequestParam(value = "id") Integer id) {
+        Response<List<PermissionModel>> response = new Response<>();
+        try {
+            List<PermissionModel> list = permissionService.getPermListByRoleId(id);
+            response.setResult(list);
+        } catch (Exception e) {
+            log.error("查询权限信息异常！原因：{}", e.getStackTrace());
+            e.printStackTrace();
+            response.setError("查询失败");
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "保存角色权限信息", notes = "保存角色权限信息", httpMethod = "POST")
+    @RequestMapping(value = "/setPerm")
+    @ResponseBody
+    public Response<String> setPerm(Integer id,@RequestParam(value = "perms[]") Integer[] perms) {
+        Response<String> response = new Response<>();
+        try {
+            roleService.setPerm(id,perms);
+            response.setResult("保存成功");
+        } catch (Exception e) {
+            log.error("保存角色权限信息异常！原因：{}", e.getStackTrace());
+            e.printStackTrace();
+            response.setError("保存失败");
+        }
+        return response;
+    }
+
     /**
      * 跳转到角色管理页面
      *
@@ -195,5 +232,18 @@ public class RoleController {
         RoleModel role = roleService.getById(id);
         model.addAttribute("role", role);
         return "system/role/edit";
+    }
+
+    /**
+     * 跳转到角色权限页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toPerm")
+    public String toPerm(Model model, Integer id) {
+        RoleModel role = roleService.getById(id);
+        model.addAttribute("role", role);
+        return "system/role/perm";
     }
 }

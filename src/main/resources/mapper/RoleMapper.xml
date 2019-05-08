@@ -116,4 +116,20 @@
             r.is_delete = 0
         AND r.is_usable = 1
     </select>
+
+    <insert id="setPerm">
+        insert into t_system_role_perm (
+        role_id,
+        perm_id
+        )
+        values (
+        #{roleId},
+        #{permId}
+        )
+    </insert>
+
+    <delete id="deletePerm">
+        delete from t_system_role_perm
+        where role_id = #{roleId}
+    </delete>
 </mapper>

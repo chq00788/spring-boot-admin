@@ -4,6 +4,7 @@ import com.chq.project.admin.system.dao.RoleDao;
 import com.chq.project.admin.system.model.RoleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -74,5 +75,21 @@ public class RoleService {
      */
     public List<RoleModel> selectRoleListByUserId(Integer userId) {
         return roleDao.selectRoleListByUserId(userId);
+    }
+
+    /**
+     * 设置角色权限信息
+     *
+     * @param roleId
+     * @param perms
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void setPerm(Integer roleId, Integer[] perms) {
+        //删除角色权限信息
+        roleDao.deletePerm(roleId);
+        //添加新的权限信息
+        for (int i = 0; i < perms.length; i++) {
+            roleDao.setPerm(roleId, perms[i]);
+        }
     }
 }
