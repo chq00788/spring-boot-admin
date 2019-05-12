@@ -1,15 +1,16 @@
 /**
 
- @Name：layuiAdmin 用户管理 管理员管理 角色管理
+ @Name：layuiAdmin 用户管理  角色管理  权限管理
  @Author：star1029
  @Site：http://www.layui.com/admin/
  @License：LPPL
 
  */
-layui.define(['table', 'form'], function (exports) {
+layui.define(['table', 'form','treetable'], function (exports) {
     var $ = layui.$
         , table = layui.table
-        , form = layui.form;
+        , form = layui.form
+        ,treetable = layui.treetable;
 
     //用户管理
     table.render({
@@ -297,5 +298,37 @@ layui.define(['table', 'form'], function (exports) {
             })
         }
     });
+
+    // 渲染表格
+    treetable.render({
+        treeColIndex: 2,          // treetable新增参数
+        treeSpid: -1,             // treetable新增参数
+        treeIdName: 'd_id',       // treetable新增参数
+        treePidName: 'd_pid',     // treetable新增参数
+        treeDefaultClose: true,   // treetable新增参数
+        treeLinkage: true,        // treetable新增参数
+        elem: '#LAY-system-perm-table',
+        url: 'getList',
+        cols: [[
+            {type: 'numbers'},
+            {field: 'id', title: 'id'},
+            {field: 'name', title: 'name'},
+            {field: 'sex', title: 'sex'},
+            {field: 'pid', title: 'pid'},
+        ]],
+        parseData: function (res) {
+            var success = res.success;
+            console.log(res.result)
+            if (success) {
+                var result = res.result;
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": '', //解析提示文本
+                    "data": result.result //解析数据列表
+                };
+            }
+        }
+    });
+
     exports('useradmin', {})
 });

@@ -11,10 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.chq.project.admin.system.model.PermissionModel;
 import com.chq.project.admin.system.service.PermissionService;
@@ -28,8 +27,8 @@ import java.util.List;
 * @date 2019-01-19
 */
 @Api(tags = {"权限管理操作接口"}, description = "权限管理操作接口")
-@RestController
-@RequestMapping("/system/permission")
+@Controller
+@RequestMapping("/system/perm")
 public class PermissionController {
     private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 
@@ -43,6 +42,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "limit", value = "每页条数", required = true, paramType = "query", dataType = "int")
     })
     @RequestMapping(value = "/getListByPage")
+    @ResponseBody
     public Response<PageInfo<PermissionModel>> getListByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                                              @RequestParam(value = "limit", defaultValue = "10") int limit,
                                                              PermissionModel model) {
@@ -62,6 +62,7 @@ public class PermissionController {
 
     @ApiOperation(value = "查询信息列表", notes = "查询信息列表",httpMethod = "GET")
     @RequestMapping(value = "/getList")
+    @ResponseBody
     public Response<List<PermissionModel>> getList(PermissionModel model) {
         Response<List<PermissionModel>> response = new Response<>();
         try {
@@ -77,6 +78,7 @@ public class PermissionController {
 
     @ApiOperation(value = "保存信息", notes = "保存信息",httpMethod = "POST")
     @RequestMapping(value = "/save")
+    @ResponseBody
     public Response<String> save(PermissionModel model) {
         Response<String> response = new Response<>();
         try {
@@ -92,6 +94,7 @@ public class PermissionController {
 
     @ApiOperation(value = "更新信息", notes = "更新信息",httpMethod = "POST")
     @RequestMapping(value = "/update")
+    @ResponseBody
     public Response<String> update(PermissionModel model) {
         Response<String> response = new Response<>();
         try {
@@ -107,6 +110,7 @@ public class PermissionController {
 
     @ApiOperation(value = "删除信息", notes = "删除信息",httpMethod = "GET")
     @RequestMapping(value = "/delete")
+    @ResponseBody
     public Response<String> delete(@RequestParam(value = "id") Integer id) {
         Response<String> response = new Response<>();
         try {
@@ -122,6 +126,7 @@ public class PermissionController {
 
     @ApiOperation(value = "根据ID查询信息", notes = "根据ID查询信息",httpMethod = "GET")
     @RequestMapping(value = "/getById")
+    @ResponseBody
     public Response<PermissionModel> getById(@RequestParam(value = "id") Integer id) {
         Response<PermissionModel> response = new Response<>();
         try {
@@ -133,5 +138,17 @@ public class PermissionController {
             response.setError("查询失败");
         }
         return response;
+    }
+
+    /**
+     * 跳转到用户管理页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toList")
+    public String toList(Model model) {
+        model.addAttribute("title", "菜单管理");
+        return "system/perm/list";
     }
 }
