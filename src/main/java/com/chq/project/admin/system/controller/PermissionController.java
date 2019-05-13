@@ -1,5 +1,6 @@
 package com.chq.project.admin.system.controller;
 
+import com.chq.project.admin.system.model.UserModel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.chq.project.admin.common.entity.Response;
@@ -150,5 +151,18 @@ public class PermissionController {
     public String toList(Model model) {
         model.addAttribute("title", "菜单管理");
         return "system/perm/list";
+    }
+
+    /**
+     * 跳转到用户编辑页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toEdit")
+    public String toEdit(Model model, Integer id) {
+        PermissionModel perm = permissionService.getById(id);
+        model.addAttribute("perm", perm);
+        return "system/perm/edit";
     }
 }

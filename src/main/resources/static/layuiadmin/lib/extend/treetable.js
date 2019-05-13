@@ -15,13 +15,12 @@ layui.define(['layer', 'table'], function (exports) {
                 treetable.init(param, param.data);
             } else {
                 $.getJSON(param.url, param.where, function (res) {
-                    treetable.init(param, res.data);
+                    treetable.init(param, res.result);
                 });
             }
         },
         // 渲染表格
         init: function (param, data) {
-            console.log(data);
             var mData = [];
             var doneCallback = param.done;
             var tNodes = data;

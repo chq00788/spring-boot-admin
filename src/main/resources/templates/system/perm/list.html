@@ -16,6 +16,33 @@
     <div class="layui-card">
         <div class="layui-card-body">
             <table id="LAY-system-perm-table" class="layui-table" lay-filter="LAY-system-perm-table"></table>
+            <script type="text/html" id="table-system-perm-operation">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="role"><i
+                        class="layui-icon layui-icon-add-1"></i>添加</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+                        class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                        class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+            <script type="text/html" id="permTypeTpl">
+                {{#  if(d.permType == 1){ }}
+                <button class="layui-btn layui-btn-xs  layui-btn-normal">目录</button>
+                {{#  } else if(d.permType == 2) { }}
+                <button class="layui-btn layui-btn-xs">菜单</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-xs">按钮</button>
+                {{#  }  }}
+            </script>
+            <script type="text/html" id="isUsableTpl">
+                {{#  if(d.isUsable == 1){ }}
+                <button class="layui-btn layui-btn-xs">正常</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">禁用</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="permIconTpl">
+                <i class="layui-icon {{# d.permIcon}}"></i>
+            </script>
         </div>
     </div>
 </div>
@@ -26,7 +53,7 @@
         base: '/static/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'useradmin', 'table','treetable'], function () {
+    }).use(['index', 'useradmin', 'table', 'treetable'], function () {
         var $ = layui.$
             , form = layui.form
             , table = layui.table;

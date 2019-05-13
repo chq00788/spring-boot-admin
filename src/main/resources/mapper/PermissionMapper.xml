@@ -41,7 +41,7 @@
         <include refid="baseColumn"/>
         FROM t_system_permission
         <include refid="selectiveWhere"/>
-        ORDER BY ${sortCode} ${sortRole}
+        ORDER BY perm_sort desc
     </select>
 
     <select id="findAll" resultMap="baseResultMap">

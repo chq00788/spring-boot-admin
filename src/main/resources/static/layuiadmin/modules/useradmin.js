@@ -6,11 +6,11 @@
  @License：LPPL
 
  */
-layui.define(['table', 'form','treetable'], function (exports) {
+layui.define(['table', 'form', 'treetable'], function (exports) {
     var $ = layui.$
         , table = layui.table
         , form = layui.form
-        ,treetable = layui.treetable;
+        , treetable = layui.treetable;
 
     //用户管理
     table.render({
@@ -299,22 +299,25 @@ layui.define(['table', 'form','treetable'], function (exports) {
         }
     });
 
-    // 渲染表格
+    // 权限管理渲染表格
     treetable.render({
-        treeColIndex: 2,          // treetable新增参数
-        treeSpid: -1,             // treetable新增参数
-        treeIdName: 'd_id',       // treetable新增参数
-        treePidName: 'd_pid',     // treetable新增参数
-        treeDefaultClose: true,   // treetable新增参数
-        treeLinkage: true,        // treetable新增参数
+        treeColIndex: 1,          // 树形图标显示在第几列
+        treeSpid: 0,              // 最上级的父级id
+        treeIdName: 'id',         // id字段的名称
+        treePidName: 'permPid',   // pid字段的名称
+        treeDefaultClose: true,   // 是否默认折叠
+        treeLinkage: true,        // 父级展开时是否自动展开所有子级
         elem: '#LAY-system-perm-table',
         url: 'getList',
         cols: [[
             {type: 'numbers'},
-            {field: 'id', title: 'id'},
-            {field: 'name', title: 'name'},
-            {field: 'sex', title: 'sex'},
-            {field: 'pid', title: 'pid'},
+            {field: 'permName', title: '名称'},
+            {field: 'permCode', title: '标识'},
+            {field: 'permType', title: '类型', templet: '#permTypeTpl'},
+            {field: 'permUrl', title: '路径'},
+            {field: 'permIcon', title: '图标', templet: '<div><i class="layui-icon {{d.permIcon}}"></i></div>>'},
+            {field: 'isUsable', title: '状态', templet: '#isUsableTpl'},
+            {title: '操作', width: 240, align: 'center', fixed: 'right', toolbar: '#table-system-perm-operation'}
         ]],
         parseData: function (res) {
             var success = res.success;
@@ -327,6 +330,122 @@ layui.define(['table', 'form','treetable'], function (exports) {
                     "data": result.result //解析数据列表
                 };
             }
+        }
+    });
+    //监听工具条
+    table.on('tool(LAY-system-perm-table)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'del') {
+            layer.confirm('确定删除此信息？', function (index) {
+                $.ajax({
+                    url: "delete",
+                    type: "post",
+                    data: {
+                        id: data.id
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            table.reload('LAY-system-perm-table'); //数据刷新
+                            layer.close(index); //关闭弹层
+                            layer.msg('删除成功');
+                        } else {
+                            layer.msg('删除失败');
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        } else if (obj.event === 'edit') {
+            layer.open({
+                type: 2
+                , title: '编辑权限'
+                , content: 'toEdit?id=' + data.id
+                , maxmin: true
+                , area: ['500px', '450px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submitID = 'LAY-system-perm-edit-submit'
+                        , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                        var field = data.field; //获取提交的字段
+                        if (field.isUsable === "on") {
+                            field.isUsable = '1';
+                        } else {
+                            field.isUsable = '0';
+                        }
+                        $.ajax({
+                            url: "update",
+                            type: "post",
+                            data: field,
+                            success: function (result) {
+                                if (result.success) {
+                                    table.reload('LAY-system-perm-table'); //数据刷新
+                                    layer.close(index); //关闭弹层
+                                    layer.msg('修改成功');
+                                } else {
+                                    layer.msg('修改失败');
+                                }
+                            }
+                        });
+                    });
+
+                    submit.trigger('click');
+                }
+                , success: function (layero, index) {
+
+                }
+            });
+        } else if (obj.event === 'role') {
+            layer.open({
+                type: 2
+                , title: '角色设置'
+                , content: 'toRole?id=' + data.id
+                , maxmin: true
+                , area: ['500px', '450px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submitID = 'LAY-user-role-submit'
+                        , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                        var field = data.field; //获取提交的字段
+                        var param = [];
+                        var roles = [];
+                        for (var i in field) {
+                            param.push(field[i])
+                        }
+                        console.log(param);
+                        for (var i = 1; i < param.length; i++) {
+                            roles.push(param[i]);
+                        }
+                        field.roles = roles;
+                        $.ajax({
+                            url: "setRole",
+                            type: "post",
+                            data: field,
+                            success: function (result) {
+                                if (result.success) {
+                                    table.reload('LAY-system-perm-table'); //数据刷新
+                                    layer.close(index); //关闭弹层
+                                    layer.msg('设置成功');
+                                } else {
+                                    layer.msg('设置失败');
+                                }
+                            }
+                        });
+                    });
+
+                    submit.trigger('click');
+                }
+                , success: function (layero, index) {
+
+                }
+            });
         }
     });
 
